@@ -1,0 +1,118 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: content: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <script src="components/loader.js"></script>
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+      var sumStudy = parseInt(sessionStorage.getItem("sumStudy"));
+      var sumRest = parseInt(sessionStorage.getItem("sumRest"));
+      var hour = 0;
+      var minute = 0;
+      var second = 0;
+      var deta = JSON.parse(localStorage.getItem('tails'));
+      var iLast = parseInt(sessionStorage.getItem("i"));
+
+      function sumdisplay(){
+        for (var i=0; i < iLast; i++){
+          document.getElementById("details").innerHTML += deta[i]+"<br>";
+        }
+
+        second = sumStudy % 60;
+        minute = ((sumStudy - second) / 60) % 60;
+        hour = (sumStudy - minute * 60 - second) / 3600;
+        if(hour < 10){
+          if(minute < 10){
+            if(second < 10){
+              document.getElementById("sumstudy").innerHTML = "0"+hour+":0"+minute+":0"+second;
+            }
+            else{
+              document.getElementById("sumstudy").innerHTML = "0"+hour+":0"+minute+":"+second;
+            }
+          }
+          else{
+            if(second < 10){
+              document.getElementById("sumstudy").innerHTML = "0"+hour+":"+minute+":0"+second;
+            }
+            else{
+              document.getElementById("sumstudy").innerHTML = "0"+hour+":"+minute+":"+second;
+            }
+          }
+        }
+        else{
+          if(minute < 10){
+            if(second < 10){
+              document.getElementById("sumstudy").innerHTML = hour+":0"+minute+":0"+second;
+            }
+            else{
+              document.getElementById("sumstudy").innerHTML = hour+":0"+minute+":"+second;
+            }
+          }
+          else{
+            if(second < 10){
+              document.getElementById("sumstudy").innerHTML = hour+":"+minute+":0"+second;
+            }
+            else{
+              document.getElementById("sumstudy").innerHTML = hour+":"+minute+":"+second;
+            }
+          }
+        }
+        second = sumRest % 60;
+        minute = ((sumRest - second) / 60) % 60;
+        hour = (sumRest - minute * 60 - second) / 3600;
+        if(hour < 10){
+          if(minute < 10){
+            if(second < 10){
+              document.getElementById("sumrest").innerHTML = "0"+hour+":0"+minute+":0"+second;
+            }
+            else{
+              document.getElementById("sumrest").innerHTML = "0"+hour+":0"+minute+":"+second;
+            }
+          }
+          else{
+            if(second < 10){
+              document.getElementById("sumrest").innerHTML = "0"+hour+":"+minute+":0"+second;
+            }
+            else{
+              document.getElementById("sumrest").innerHTML = "0"+hour+":"+minute+":"+second;
+            }
+          }
+        }
+        else{
+          if(minute < 10){
+            if(second < 10){
+              document.getElementById("sumrest").innerHTML = hour+":0"+minute+":0"+second;
+            }
+            else{
+              document.getElementById("sumrest").innerHTML = hour+":0"+minute+":"+second;
+            }
+          }
+          else{
+            if(second < 10){
+              document.getElementById("sumrest").innerHTML = hour+":"+minute+":0"+second;
+            }
+            else{
+              document.getElementById("sumrest").innerHTML = hour+":"+minute+":"+second;
+            }
+          }
+        }
+      }
+    </script>
+</head>
+<body bgcolor="#1E90FF" onload="sumdisplay()">
+  <!--初期画面-->
+  <div id = "otu">お疲れ様でした！</div>
+  <div class = "sumtime">勉強タイム合計</div>
+  <p><span class = "sumtime" id = "sumstudy">00:00:00</span></p>
+  <div class = "sumtime">休憩タイム合計</div>
+  <p><span class = "sumtime" id = "sumrest">00:00:00</span></p>
+  <p><a href="index.html" id = "last">最初の画面へ戻る</a></p>
+  <details>
+    <summary id = 'detailsTitle'>学習時間詳細</summary>
+    <div id = 'details'></div>
+  </details>
+</body>
+</html>

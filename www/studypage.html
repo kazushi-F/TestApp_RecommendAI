@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: content: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <script src="components/loader.js"></script>
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+      var interval;
+      var count = 900;
+      var minute;
+      var second;
+      var sumStudy = parseInt(sessionStorage.getItem("sumStudy"));
+      var outTime = parseInt(sessionStorage.getItem("outTime"));
+      var i = parseInt(sessionStorage.getItem("i"));
+      var deta = JSON.parse(localStorage.getItem("tails"))
+      var click = 0;
+
+      i = i + 1;
+      sessionStorage.setItem('i',i);
+
+      interval = setInterval ( "Timer()", 1000 );
+      
+      function Timer(){
+        count = count - 1;
+        second = count % 60;
+        minute = (count-second) / 60;
+        if(minute < 10){
+          if(second < 10){
+            document.getElementById("studytime").innerHTML = "0"+minute+":0"+second;
+          }
+          else{
+            document.getElementById("studytime").innerHTML = "0"+minute+":"+second;
+          }
+        }
+        else{
+          if(second < 10){
+            document.getElementById("studytime").innerHTML = minute+":0"+second;
+          }
+          else{
+            document.getElementById("studytime").innerHTML = minute+":"+second;
+          }
+        }
+        if ( count < 3){
+          document.getElementById('sound-file').play() ;
+        }
+        if ( count == 0 ){
+          clearInterval(interval);
+          sumStudy = sumStudy + 900;
+          sessionStorage.setItem('sumStudy',sumStudy);
+          deta.push('勉強　15:00');
+          localStorage.setItem('tails', JSON.stringify(deta));
+          window.location.href = 'restpage.html';
+        }
+      }
+
+      function stop(){
+        click = click + 1;
+        if(click == 1){
+          clearInterval(interval);
+          document.getElementById("stopbutton").src = "restart.png";
+        }
+        else{
+          document.getElementById("stopbutton").src = "stop.png";
+          click = 0;
+          interval = setInterval ( "Timer()", 1000 );
+        }
+      }
+
+      function leftover(){
+        clearInterval(interval);
+        var karideta;
+        var keika = 900 - count;
+        second = keika % 60;
+        minute = (keika - second) / 60;
+        if(minute > 9){
+          if(second > 9){
+            karideta = minute+':'+second;
+          }
+          else{
+            karideta = minute+':0'+second;
+          }
+        }
+        else{
+          if(second > 9){
+            karideta = '0'+minute+':'+second;
+          }
+          else{
+            karideta = '0'+minute+':0'+second;
+          }
+        }
+        sumStudy = sumStudy + keika;
+        outTime = outTime + count;
+        sessionStorage.setItem('sumStudy',sumStudy);
+        sessionStorage.setItem('outTime',outTime);
+        deta.push('勉強　'+karideta);
+        localStorage.setItem('tails', JSON.stringify(deta));
+        window.location.href = 'restpage.html';
+      }
+
+      function endstudy(){
+        clearInterval(interval);
+        var karideta;
+        var keika = 900 - count;
+        second = keika % 60;
+        minute = (keika - second) / 60;
+        if(minute > 9){
+          if(second > 9){
+            karideta = minute+':'+second;
+          }
+          else{
+            karideta = minute+':0'+second;
+          }
+        }
+        else{
+          if(second > 9){
+            karideta = '0'+minute+':'+second;
+          }
+          else{
+            karideta = '0'+minute+':0'+second;
+          }
+        }
+        sumStudy = sumStudy + keika;
+        sessionStorage.setItem('sumStudy',sumStudy);
+        deta.push('勉強　'+karideta);
+        localStorage.setItem('tails', JSON.stringify(deta));
+        window.location.href = 'endpage.html';
+      }
+    </script>
+</head>
+<body bgcolor="#1E90FF">
+  <!--勉強画面-->
+  <div class = "title">勉強タイム</div>
+  <p><span class = "time" id = "studytime">15:00</span></p>
+  <p><img src = "rest.png" class = "studybutton" onclick="leftover()"></a></p>
+  <p><img src = "stop.png" class = "studybutton" id = "stopbutton" onclick = "stop()"> <img src = "end.png" class = "studybutton" onclick="endstudy()"></a></p>
+  <audio id="sound-file" preload="auto"><source src="Countdown04-1.mp3" type="audio/mp3"></audio>
+</body>
+</html>

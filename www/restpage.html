@@ -1,0 +1,127 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: content: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <script src="components/loader.js"></script>
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+      var interval;
+      var count = 300;
+      var countA;
+      var minute;
+      var second;
+      var sumRest = parseInt(sessionStorage.getItem("sumRest"));
+      var outTime = parseInt(sessionStorage.getItem("outTime"));
+      var hueta = 0;
+      var i = parseInt(sessionStorage.getItem("i"));
+      var deta = JSON.parse(localStorage.getItem("tails"))
+      var click = 0;
+
+      i = i + 1;
+      sessionStorage.setItem('i',i);
+      
+      function aaa(){
+        document.getElementById('sound-file').play() ;
+      }
+
+      if(outTime > 600){
+        hueta = 1;
+        count = 1200;
+        outTime = outTime - 600;
+        sessionStorage.setItem('outTime',outTime);
+      }
+
+      countA = count;
+
+      interval = setInterval ( "Timer()", 1000 );
+      
+      function Timer(){
+        count = count - 1;
+        second = count % 60;
+        minute = (count-second) / 60;
+        if(minute < 10){
+          if(second < 10){
+            document.getElementById("resttime").innerHTML = "0"+minute+":0"+second;
+          }
+          else{
+            document.getElementById("resttime").innerHTML = "0"+minute+":"+second;
+          }
+        }
+        else{
+          if(second < 10){
+            document.getElementById("resttime").innerHTML = minute+":0"+second;
+          }
+          else{
+            document.getElementById("resttime").innerHTML = minute+":"+second;
+          }
+        }
+        if ( count == 0 ){
+          clearInterval(interval);
+          if(hueta == 0){
+            sumRest = sumRest + 300;
+            deta.push('休憩　05:00');
+          }
+          else{
+            sumRest = sumRest + 1200;
+            deta.push('休憩　20:00');
+          }
+          sessionStorage.setItem('sumRest',sumRest);
+          localStorage.setItem('tails', JSON.stringify(deta));
+          window.location.href = 'studypage.html';
+        }
+      }
+
+      function stop(){
+        click = click + 1;
+        if(click == 1){
+          clearInterval(interval);
+          document.getElementById("stopbutton").src = "rerest.png";
+        }
+        else{
+          document.getElementById("stopbutton").src = "stop.png";
+          click = 0;
+          interval = setInterval ( "Timer()", 1000 );
+        }
+      }
+
+      function endrest(){
+        clearInterval(interval);
+        var karideta;
+        var keika = countA - count;
+        second = keika % 60;
+        minute = (keika - second) / 60;
+        if(minute > 9){
+          if(second > 9){
+            karideta = minute+':'+second;
+          }
+          else{
+            karideta = minute+':0'+second;
+          }
+        }
+        else{
+          if(second > 9){
+            karideta = '0'+minute+':'+second;
+          }
+          else{
+            karideta = '0'+minute+':0'+second;
+          }
+        }
+        sumRest = sumRest + (keika);
+        sessionStorage.setItem('sumRest',sumRest);
+        deta.push('休憩　'+karideta);
+        localStorage.setItem('tails', JSON.stringify(deta));
+        window.location.href = 'endpage.html';
+      }
+    </script>
+</head>
+<body bgcolor="#1E90FF" onload="aaa()">
+  <!--初期画面-->
+  <div class = "title">休憩タイム</div>
+  <p><span class = "time" id = "resttime">05:00</span></p>
+  <p><img src = "stop.png" class = "restbutton" id = "stopbutton" onclick = "stop()"> <img src = "end.png" class = "restbutton" onclick="endrest()"></a></p>
+  <audio id="sound-file" preload="auto"><source src="Countdown04-6.mp3" type="audio/mp3"></audio>
+</body>
+</html>

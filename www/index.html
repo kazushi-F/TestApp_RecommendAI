@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: content: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <script src="components/loader.js"></script>
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script>
+      sessionStorage.setItem('sumStudy',0);
+      sessionStorage.setItem('sumRest',0);
+      sessionStorage.setItem('outTime',0);
+      var deta = [];
+      localStorage.setItem('tails', JSON.stringify(deta));
+      sessionStorage.setItem('i',0);
+
+      function sound(){
+	      document.getElementById('sound-file').play() ;
+        window.location.href = 'studypage.html';
+      }
+    </script>
+</head>
+<body bgcolor="#1E90FF">
+  <!--初期画面-->
+  <div class = "title">集中力維持<br>アプリ</div>
+  <p><a onclick="sound()"><img src = "start.png" id = "startbutton"></a></p>
+  <audio id="sound-file" preload="auto"><source src="buttonsound.mp3" type="audio/mp3"></audio>
+</body>
+</html>
